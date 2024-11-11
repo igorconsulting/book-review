@@ -1,0 +1,100 @@
+# feature_store.yaml
+
+# Dataset: books_data
+books_data:
+  - name: Title
+    dtype: str
+    description: "The title of the book"
+    transformations: "None"
+
+  - name: description
+    dtype: str
+    description: "A brief summary or description of the book's content"
+    transformations: "None"
+
+  - name: authors
+    dtype: str
+    description: "The author(s) of the book; possibly includes multiple authors"
+    transformations: "Extract main author if multiple authors are listed"
+
+  - name: image
+    dtype: str
+    description: "URL link to the book's cover image"
+    transformations: "None"
+
+  - name: previewLink
+    dtype: str
+    description: "URL link for previewing the book online"
+    transformations: "None"
+
+  - name: publisher
+    dtype: str
+    description: "The publishing company for the book"
+    transformations: "None"
+
+  - name: publishedDate
+    dtype: str
+    description: "The publication date of the book"
+    transformations: "Parse to date format if needed"
+
+  - name: infoLink
+    dtype: str
+    description: "URL to the book's information page"
+    transformations: "None"
+
+  - name: categories
+    dtype: str
+    description: "Book categories or genres, e.g., Fiction, Biography"
+    transformations: "None"
+
+  - name: ratingsCount
+  dtype: f64
+  description: "The total number of ratings the book has received"
+  transformations: "Apply log transformation if skewed; consider median imputation for null values"
+
+# Dataset: books_rating
+books_rating:
+  - name: Id
+    dtype: str
+    description: "Unique identifier for the book"
+    transformations: "None"
+
+  - name: Title
+    dtype: str
+    description: "The title of the book, used to link with books_data"
+    transformations: "None"
+
+  - name: Price
+    dtype: f64
+    description: "Price of the book (if available)"
+    transformations: "None"
+
+  - name: User_id
+    dtype: str
+    description: "Unique identifier for the user who rated the book"
+    transformations: "None"
+
+  - name: profileName
+    dtype: str
+    description: "The profile name of the user who rated the book"
+    transformations: "None"
+
+  - name: score
+    dtype: f64
+    description: "Rating score given by the user"
+    transformations: "Standardize ratings scale if needed"
+
+  - name: time
+    dtype: str  # Assumed to be a string if represented as Unix timestamp in Polars
+    description: "Unix timestamp representing the date of the rating"
+    transformations: "Convert to datetime format"
+
+  - name: summary
+    dtype: str
+    description: "Short summary or headline for the user review"
+    transformations: "None"
+
+  - name: text
+    dtype: str
+    description: "Full text of the user review"
+    transformations: "Sentiment analysis, keyword extraction"
