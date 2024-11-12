@@ -1,6 +1,7 @@
 import polars as pl
 import logging
 from pathlib import Path
+import os
 
 def save_to_csv(df, file_path):
     """
@@ -32,3 +33,15 @@ def configure_logger():
         logger.addHandler(ch)
     
     return logger
+
+# Function to save DataFrame to Parquet only if the file does not exist
+def save_to_parquet_if_not_exists(df, file_path, logger):
+    if os.path.exists(file_path):
+        logger.info(f"File {file_path} already exists, skipping save.")
+    else:
+        try:
+            df.write_parquet(file_path)
+            logger.info(f"File saved successfully to {file_path}.")
+        except Exception as e:
+            logger.error(f"Error saving file to {file_path}: {e}")
+            raise e

@@ -20,9 +20,8 @@ class LLMPipeline(FlowSpec):
         
         # Load filtered data files
         try:
-            self.books_data = pl.read_csv(FILTERED_DATA_DIR / "books_info_filtered.csv")
-            self.books_rating = pl.read_csv(FILTERED_DATA_DIR / "books_review_filtered.csv")
-            logger.info("Filtered data files loaded successfully.")
+            self.model_data = pl.read_csv(FILTERED_DATA_DIR / "model_data.csv")
+            logger.info("model data files loaded successfully.")
         except Exception as e:
             logger.error(f"Error loading filtered data: {e}")
             raise e

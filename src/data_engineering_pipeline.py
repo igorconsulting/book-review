@@ -10,7 +10,7 @@ from plots import *
 # Initialize the logger
 logger = get_logger()
 
-class BookDataPipeline(FlowSpec):
+class Book_Data_Engineering_Pipeline(FlowSpec):
     
     @step
     def start(self):
@@ -340,4 +340,4 @@ class BookDataPipeline(FlowSpec):
         print("Pipeline completed successfully.")
 
 if __name__ == "__main__":
-    BookDataPipeline()
+    Book_Data_Engineering_Pipeline()
