@@ -20,7 +20,7 @@ class LLMPipeline(FlowSpec):
         
         # Load filtered data files
         try:
-            self.model_data = pl.read_csv(FILTERED_DATA_DIR / "model_data.csv")
+            self.model_data = pl.read_csv(FEATURE_STORE_DIR / "model_data.csv")
             logger.info("model data files loaded successfully.")
         except Exception as e:
             logger.error(f"Error loading filtered data: {e}")
@@ -31,26 +31,46 @@ class LLMPipeline(FlowSpec):
 
     @step
     def fine_tuning(self):
-        """Fine-tune a transformer model on book review data to improve sentiment analysis."""
-        logger.info("Starting fine-tuning on book review data.")
-
+        """Fine-tune a transformer model to respond to book-related questions contextually."""
+        logger.info("Starting fine-tuning on book data with contextual question-answer pairs.")
+    
         try:
-            reviews = self.books_rating["text"].to_list()
-            scores = self.books_rating["score"].to_list()
-            
-            # Prepare datasets and tokenizer for fine-tuning
-            train_dataset, val_dataset, _ = prepare_datasets(reviews, scores)
-            
-            # Fine-tune the model
+            # Combine relevant columns to create a comprehensive text input
+            combined_texts = [
+                f"Title: {row['Title']}\n"
+                f"Description: {row['description']}\n"
+                f"Authors: {row['authors']}\n"
+                f"Publisher: {row['publisher']}\n"
+                f"Published Date: {row['publishedDate']}\n"
+                f"Categories: {row['categories']}\n"
+                f"Average Score: {row['avg_score']}\n"
+                f"Review Summary: {row['summary']}\n"
+                f"Review Text: {row['text']}\n"
+                f"Review Score: {row['score']}\n"
+                for row in self.model_data.to_dicts()
+            ]
+    
+            # Define generic question templates
+            questions = [
+                "What is the general opinion about this book?",
+                "What do readers think about the book's narrative and style?",
+                "Could you summarize the feedback for this book?",
+                "What are the strong and weak points mentioned in the reviews?"
+            ]
+
+            # Prepare datasets with question-answer pairs
+            train_dataset, val_dataset, _ = prepare_datasets(
+                combined_texts,
+                questions
+            )
+
+            # Fine-tune the model with the contextual pairs
             fine_tune_model(train_dataset, val_dataset)
-            
+
             logger.info("Fine-tuning completed and model saved.")
         except Exception as e:
             logger.error(f"Error during fine-tuning: {e}")
             raise e
-
-        # Proceed to prepare_for_modeling step
-        self.next(self.prepare_for_modeling)
     
     @step
     def prepare_for_modeling(self):

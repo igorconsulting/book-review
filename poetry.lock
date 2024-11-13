@@ -2649,6 +2649,33 @@ docs = ["ipykernel", "nbconvert", "numpydoc", "pydata_sphinx_theme (==0.10.0rc2)
 stats = ["scipy (>=1.7)", "statsmodels (>=0.12)"]
 
 [[package]]
+name = "sentence-transformers"
+version = "3.3.0"
+description = "State-of-the-Art Text Embeddings"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "sentence_transformers-3.3.0-py3-none-any.whl", hash = "sha256:5897c376fde1fea5f22a90ead2612278a464e52b8e42f1af95f84092c36bc23c"},
+    {file = "sentence_transformers-3.3.0.tar.gz", hash = "sha256:b91f0aea4ada72ed5a7cdbe8a6245a7152d0d9f84f336383778f8568e406b008"},
+]
+
+[package.dependencies]
+huggingface-hub = ">=0.20.0"
+Pillow = "*"
+scikit-learn = "*"
+scipy = "*"
+torch = ">=1.11.0"
+tqdm = "*"
+transformers = ">=4.41.0,<5.0.0"
+
+[package.extras]
+dev = ["accelerate (>=0.20.3)", "datasets", "peft", "pre-commit", "pytest", "pytest-cov"]
+onnx = ["optimum[onnxruntime] (>=1.23.1)"]
+onnx-gpu = ["optimum[onnxruntime-gpu] (>=1.23.1)"]
+openvino = ["optimum-intel[openvino] (>=1.20.0)"]
+train = ["accelerate (>=0.20.3)", "datasets"]
+
+[[package]]
 name = "setuptools"
 version = "75.3.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
@@ -3230,4 +3257,4 @@ pillow = "*"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "adda0be67287706d6b6b4746ee2e6a3a028416eb452926bcf5a9e27bdda2303e"
+content-hash = "9dbd3bd42a39c6fe149d775d838710724a14d20d1f7aa24b4f18c9a55a7e5ab4"
